@@ -1,24 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+
+import User from './components/Users/Users';
 import './App.css';
 
+const usersURL = 'http://localhost:5000/api/users';
+
 function App() {
+  const [ users, setUsers ] = useState([]);
+  const [ error, setError ] = useState('');
+  const [ isLoading, setIsLoading ] = useState(false);
+
+  const getAllUsers = async () => {
+    setIsLoading(true);
+    try {
+      const users = await axios.get(usersURL);
+      setUsers(users.data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getAllUsers()
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <User users={users}/>
     </div>
   );
 }
