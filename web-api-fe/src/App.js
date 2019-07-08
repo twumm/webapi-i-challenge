@@ -29,7 +29,7 @@ function App() {
       await axios.post(usersURL, user);
       getAllUsers();
     } catch (error) {
-      setError(error);
+      setError('Error, please try again');
     } finally {
       setIsLoading(false);
     }
