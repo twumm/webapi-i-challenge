@@ -14,7 +14,10 @@ server.post('/api/users', (req, res) => {
     return res.status(400).json({ errorMessage: "Please provide name and bio for the user" });
   }
   userDB.insert(user)
-    .then(user => userDB.findById(user.id))
+    .then(user => {
+      userDB.findById(user.id)
+        .then(user => res.status(200).json(user));
+    })
     .catch(() => {
       return res.status(500).json({ error: "There was an error while saving the user to the database"});
     })
@@ -23,7 +26,7 @@ server.post('/api/users', (req, res) => {
 server.get('/api/users', (req, res) => {
   userDB.find()
     .then(users => res.status(200).json(users))
-    .error(() => {
+    .catch(() => {
       res.status(500).json({ error: "The users information could not be retrieved." })
     })
 })
@@ -36,7 +39,7 @@ server.get('/api/users/:id', (req, res) => {
       ? res.status(404).json({ error: "The user with the specified ID does not exist." })
       : res.status(200).json(user);
     })
-    .error(() => {
+    .catch(() => {
       res.status(500).json({ error: "The user information could not be retrieved." });
     })
 })
