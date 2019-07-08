@@ -35,6 +35,19 @@ function App() {
     }
   }
 
+  const deleteUser = async (id) => {
+    console.log(id)
+    setIsLoading(true);
+    try {
+      await axios.delete(`${usersURL}/${id}`);
+      getAllUsers();
+    } catch (error) {
+      setError('Error, please try again');
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   useEffect(() => {
     getAllUsers()
   }, [])
@@ -46,6 +59,7 @@ function App() {
         addUser={addUser}
         error={error}
         isLoading={isLoading}
+        deleteUser={deleteUser}
       />
     </div>
   );
