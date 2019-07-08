@@ -11,6 +11,8 @@ export default function UserForm({ addUser }) {
       bio: bioText.current.value
     }
     addUser(user);
+    nameText.current.value = '';
+    bioText.current.value = '';
   }
   
   return (
