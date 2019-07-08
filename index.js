@@ -9,9 +9,15 @@ server.use(express.json());
 
 server.post('/api/users', (req, res) => {
   const { name, bio } = req.body;
+  const user = {name, bio};
   if (!name || !bio) {
     return res.status(400).json({ errorMessage: "Please provide name and bio for the user" });
   }
+  userDB.insert(user)
+    .then(user => userDB.findById(user.id))
+    .error(() => {
+      return res.status(500).json({ error: "There was an error while saving the user to the database"});
+    })
 })
 
 server.get('/api/users', (req, res) => {
