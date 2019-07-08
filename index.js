@@ -8,7 +8,10 @@ const port = 5000;
 server.use(express.json());
 
 server.post('/api/users', (req, res) => {
-  res.send('post new user');
+  const { name, bio } = req.body;
+  if (!name || !bio) {
+    return res.status(400).json({ errorMessage: "Please provide name and bio for the user" });
+  }
 })
 
 server.get('/api/users', (req, res) => {
