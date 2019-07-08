@@ -21,7 +21,11 @@ server.post('/api/users', (req, res) => {
 })
 
 server.get('/api/users', (req, res) => {
-  res.send('get all users');
+  userDB.find()
+    .then(users => res.status(200).json(users))
+    .error(() => {
+      res.status(500).json({ error: "The users information could not be retrieved." })
+    })
 })
 
 server.get('/api/users/:id', (req, res) => {
