@@ -1,9 +1,13 @@
-import React from 'react'
+import React from 'react';
+
+import User from './User'
 
 export default function Users({ users }) {
   return (
     <div>
-      <h2>users</h2>
+      {
+        users.map(user => <User key={user.id} name={user.name} bio={user.bio} />)
+      }
     </div>
   )
 }
