@@ -23,6 +23,18 @@ function App() {
     }
   }
 
+  const addUser = async (user) => {
+    setIsLoading(true);
+    try {
+      await axios.post(usersURL, user);
+      getAllUsers();
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   useEffect(() => {
     getAllUsers()
   }, [])
@@ -31,6 +43,7 @@ function App() {
     <div className="App">
       <Users
         users={users}
+        addUser={addUser}
         error={error}
         isLoading={isLoading}
       />
