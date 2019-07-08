@@ -15,7 +15,7 @@ server.post('/api/users', (req, res) => {
   }
   userDB.insert(user)
     .then(user => userDB.findById(user.id))
-    .error(() => {
+    .catch(() => {
       return res.status(500).json({ error: "There was an error while saving the user to the database"});
     })
 })
@@ -43,7 +43,16 @@ server.get('/api/users/:id', (req, res) => {
 
 server.delete('/api/users/:id', (req, res) => {
   const { id } = req.params;
-  res.send(`delete user with id ${id}`);
+
+  userDB.remove(id)
+    .then(deleted => {
+      return deleted 
+      ? res.status(204).end()
+      : res.status(404).json({ message: "The user with the specified ID does not exist." })
+    })
+    .catch(() => {
+      return res.status(404).json({ error: "The user could not be removed" })
+    })
 })
 
 server.put('/api/users/:id', (req, res) => {
