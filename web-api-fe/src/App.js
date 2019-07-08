@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import User from './components/Users/Users';
+import Users from './components/Users/Users';
 import './App.css';
 
 const usersURL = 'http://localhost:5000/api/users';
@@ -29,7 +29,11 @@ function App() {
 
   return (
     <div className="App">
-      <User users={users}/>
+      <Users
+        users={users}
+        error={error}
+        isLoading={isLoading}
+      />
     </div>
   );
 }
